@@ -1,20 +1,88 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Loader2 } from 'lucide-react';
 
 const apiBase = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api').replace(/\/$/, '');
 const inputClass = 'w-full rounded-2xl border border-sage/10 bg-cream/50 px-6 py-4 outline-none transition focus:border-sage focus:ring-2 focus:ring-sage/20';
 
 export function AuthForm() {
+  const router = useRouter();
   const [registering, setRegistering] = useState(false);
-  const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function resumeSavedSession() {
+      let user = null;
+      try {
+        user = JSON.parse(localStorage.getItem('botanicalGlowUser') || 'null');
+      } catch {
+        user = null;
+      }
+
+      if (!user) {
+        if (!cancelled) setCheckingSession(false);
+        return;
+      }
+
+      const destination = user.is_superuser ? '/dashboard/' : '/';
+      const access = localStorage.getItem('botanicalGlowAccess');
+      let accessIsValid = false;
+      if (access) {
+        try {
+          const payload = JSON.parse(atob(access.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+          accessIsValid = Number(payload.exp) * 1000 > Date.now() + 30_000;
+        } catch {
+          accessIsValid = false;
+        }
+      }
+
+      if (!accessIsValid) {
+        const refresh = localStorage.getItem('botanicalGlowRefresh');
+        if (!refresh) {
+          localStorage.removeItem('botanicalGlowAccess');
+          localStorage.removeItem('botanicalGlowUser');
+          window.dispatchEvent(new Event('botanical-auth-changed'));
+          if (!cancelled) setCheckingSession(false);
+          return;
+        }
+
+        try {
+          const response = await fetch(`${apiBase}/auth/refresh/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ refresh }),
+          });
+          if (!response.ok) {
+            localStorage.removeItem('botanicalGlowAccess');
+            localStorage.removeItem('botanicalGlowRefresh');
+            localStorage.removeItem('botanicalGlowUser');
+            window.dispatchEvent(new Event('botanical-auth-changed'));
+            if (!cancelled) setCheckingSession(false);
+            return;
+          }
+          const tokens = await response.json();
+          localStorage.setItem('botanicalGlowAccess', tokens.access);
+        } catch {
+          // Keep the saved account if the API is temporarily unreachable.
+        }
+      }
+
+      if (!cancelled) router.replace(destination);
+    }
+
+    resumeSavedSession();
+    return () => { cancelled = true; };
+  }, [router]);
 
   async function submit(event) {
     event.preventDefault();
     const formElement = event.currentTarget;
-    setMessage('');
     setError('');
     const form = new FormData(formElement);
     const password = form.get('password');
@@ -38,18 +106,16 @@ export function AuthForm() {
       localStorage.setItem('botanicalGlowRefresh', data.refresh);
       localStorage.setItem('botanicalGlowUser', JSON.stringify(data.user));
       window.dispatchEvent(new Event('botanical-auth-changed'));
-      if (registering) {
-        setRegistering(false);
-        setMessage(`Welcome, ${data.user.username}. Your account is ready.`);
-        formElement.reset();
-      } else {
-        setMessage(`Welcome back, ${data.user.username}. You are signed in.`);
-      }
+      router.replace(data.user.is_superuser ? '/dashboard/' : '/');
     } catch (requestError) {
       setError(requestError.message || 'Could not connect to the store backend.');
     } finally {
       setBusy(false);
     }
+  }
+
+  if (checkingSession) {
+    return <div className="grid min-h-[320px] w-full place-items-center text-sage" aria-label="Checking your account"><Loader2 className="h-7 w-7 animate-spin" /></div>;
   }
 
   return (
@@ -81,7 +147,6 @@ export function AuthForm() {
           <input required name="password" type="password" autoComplete={registering ? 'new-password' : 'current-password'} className={`${inputClass} mt-2 normal-case font-normal tracking-normal`} placeholder="At least 8 characters" />
         </label>
         {error && <p role="alert" className="text-sm text-terracotta">{error}</p>}
-        {message && <p aria-live="polite" className="text-sm text-sage">{message}</p>}
         <button type="submit" disabled={busy} className="w-full rounded-full bg-sage py-5 font-bold text-white shadow-lg shadow-sage/20 transition hover:bg-sage/90 disabled:opacity-60">
           {busy ? 'Please wait…' : registering ? 'Create Account' : 'Sign In'}
         </button>
@@ -91,7 +156,7 @@ export function AuthForm() {
           {registering ? 'Already have an account?' : "Don't have an account?"}{' '}
           <button
             type="button"
-            onClick={() => { setRegistering(!registering); setError(''); setMessage(''); }}
+            onClick={() => { setRegistering(!registering); setError(''); }}
             className="font-bold text-sage hover:underline"
           >
             {registering ? 'Sign in' : 'Create one'}
