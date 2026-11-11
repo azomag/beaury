@@ -9,6 +9,7 @@ import { Minus } from 'lucide-react';
 import { Plus } from 'lucide-react';
 import { ShoppingBag } from 'lucide-react';
 import { Text } from '@/components/Text';
+import { CartSummary } from '@/components/CartSummary';
 import { Twitter } from 'lucide-react';
 import { User } from 'lucide-react';
 
@@ -102,27 +103,7 @@ export default function Page() {
                   </div>
                 </div>
                 {/* Summary */}
-                <div className="lg:col-span-1">
-                  <div className="bg-white p-10 rounded-[40px] soft-shadow sticky top-32">
-                    <h3 className="text-2xl font-lora font-bold mb-8"> Order Summary </h3>
-                    <div className="space-y-4 mb-8">
-                      <div className="flex justify-between text-earth/60">
-                        <Text> Subtotal </Text>
-                        <Text> $102.00 </Text>
-                      </div>
-                      <div className="flex justify-between text-earth/60">
-                        <Text> Shipping </Text>
-                        <Text variant="bold" className="text-sage font-bold"> Free </Text>
-                      </div>
-                      <div className="pt-4 border-t border-sage/10 flex justify-between text-xl font-lora font-bold">
-                        <Text> Total </Text>
-                        <Text> $102.00 </Text>
-                      </div>
-                    </div>
-                    <Button contentKey="cta_12" className="w-full bg-sage text-white py-5 rounded-full font-bold hover:bg-sage/90 transition-all shadow-lg shadow-sage/20 mb-6"> Checkout Now </Button>
-                    <p className="text-[10px] text-center text-earth/40 uppercase tracking-widest"> Secure payment powered by Stripe </p>
-                  </div>
-                </div>
+                <CartSummary />
               </div>
             </div>
           </section>

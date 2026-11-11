@@ -1,6 +1,5 @@
 import { Button } from '@/components/Button';
 import { Facebook } from 'lucide-react';
-import { Image } from '@/components/Image';
 import { Instagram } from 'lucide-react';
 import { Leaf } from 'lucide-react';
 import { Link } from '@/components/Link';
@@ -9,6 +8,7 @@ import { ShoppingBag } from 'lucide-react';
 import { Text } from '@/components/Text';
 import { Twitter } from 'lucide-react';
 import { User } from 'lucide-react';
+import { ShopCatalog } from '@/components/ShopCatalog';
 
 export const metadata = {
   title: 'Botanical Glow - Free Tailwind Template',
@@ -57,91 +57,7 @@ export default function Page() {
                 <h1 className="text-5xl font-lora font-bold mb-4"> The Collection </h1>
                 <p className="text-earth/60"> Pure, plant-based formulas for every skin concern. </p>
               </div>
-              {/* Filters */}
-              <div className="flex flex-wrap justify-center gap-4 mb-16">
-                <Button contentKey="cta_22" className="px-8 py-3 bg-sage text-white rounded-full text-sm font-bold soft-shadow"> All Products </Button>
-                <Button contentKey="cta_23" className="px-8 py-3 bg-white text-earth/60 rounded-full text-sm font-bold hover:text-sage transition-colors"> Cleansers </Button>
-                <Button contentKey="cta_24" className="px-8 py-3 bg-white text-earth/60 rounded-full text-sm font-bold hover:text-sage transition-colors"> Serums </Button>
-                <Button contentKey="cta_25" className="px-8 py-3 bg-white text-earth/60 rounded-full text-sm font-bold hover:text-sage transition-colors"> Moisturizers </Button>
-                <Button contentKey="cta_26" className="px-8 py-3 bg-white text-earth/60 rounded-full text-sm font-bold hover:text-sage transition-colors"> Body Care </Button>
-              </div>
-              {/* Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {/* Product 1 */}
-                <div className="group">
-                  <Link className="block" href="product-detail.html"><div className="aspect-square bg-white rounded-[32px] overflow-hidden mb-6 relative soft-shadow">
-                    <Image variant="cover" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://images.unsplash.com/photo-1612817288484-6f916006741a?w=600&q=80" alt="Product" />
-                    <div className="absolute top-4 left-4 px-3 py-1 bg-sage text-white text-[10px] font-bold uppercase tracking-widest rounded-full"> Best Seller </div>
-                  </div>
-                  <h3 className="text-lg font-lora font-bold mb-1"> Velvet Cloud Cleanser </h3>
-                  <p className="text-earth/60 text-sm mb-2"> Gentle foaming wash </p>
-                  <p className="text-sage font-bold"> $32.00 </p></Link>
-                </div>
-                {/* Product 2 */}
-                <div className="group">
-                  <Link className="block" href="product-detail.html"><div className="aspect-square bg-white rounded-[32px] overflow-hidden mb-6 relative soft-shadow">
-                    <Image variant="cover" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=600&q=80" alt="Product" />
-                  </div>
-                  <h3 className="text-lg font-lora font-bold mb-1"> Midnight Recovery Oil </h3>
-                  <p className="text-earth/60 text-sm mb-2"> Overnight repair serum </p>
-                  <p className="text-sage font-bold"> $58.00 </p></Link>
-                </div>
-                {/* Product 3 */}
-                <div className="group">
-                  <Link className="block" href="product-detail.html"><div className="aspect-square bg-white rounded-[32px] overflow-hidden mb-6 relative soft-shadow">
-                    <Image variant="cover" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=600&q=80" alt="Product" />
-                  </div>
-                  <h3 className="text-lg font-lora font-bold mb-1"> Rosewater Dew Mist </h3>
-                  <p className="text-earth/60 text-sm mb-2"> Hydrating facial spray </p>
-                  <p className="text-sage font-bold"> $24.00 </p></Link>
-                </div>
-                {/* Product 4 */}
-                <div className="group">
-                  <Link className="block" href="product-detail.html"><div className="aspect-square bg-white rounded-[32px] overflow-hidden mb-6 relative soft-shadow">
-                    <Image variant="cover" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80" alt="Product" />
-                    <div className="absolute top-4 left-4 px-3 py-1 bg-terracotta text-white text-[10px] font-bold uppercase tracking-widest rounded-full"> New </div>
-                  </div>
-                  <h3 className="text-lg font-lora font-bold mb-1"> Earth Clay Mask </h3>
-                  <p className="text-earth/60 text-sm mb-2"> Deep pore detox </p>
-                  <p className="text-sage font-bold"> $45.00 </p></Link>
-                </div>
-                {/* Product 5 */}
-                <div className="group">
-                  <Link className="block" href="product-detail.html"><div className="aspect-square bg-white rounded-[32px] overflow-hidden mb-6 relative soft-shadow">
-                    <Image variant="cover" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=600&q=80" alt="Product" />
-                  </div>
-                  <h3 className="text-lg font-lora font-bold mb-1"> Botanical Body Butter </h3>
-                  <p className="text-earth/60 text-sm mb-2"> Rich shea nourishment </p>
-                  <p className="text-sage font-bold"> $38.00 </p></Link>
-                </div>
-                {/* Product 6 */}
-                <div className="group">
-                  <Link className="block" href="product-detail.html"><div className="aspect-square bg-white rounded-[32px] overflow-hidden mb-6 relative soft-shadow">
-                    <Image variant="cover" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=600&q=80" alt="Product" />
-                  </div>
-                  <h3 className="text-lg font-lora font-bold mb-1"> Vitamin C Glow Serum </h3>
-                  <p className="text-earth/60 text-sm mb-2"> Brightening concentrate </p>
-                  <p className="text-sage font-bold"> $64.00 </p></Link>
-                </div>
-                {/* Product 7 */}
-                <div className="group">
-                  <Link className="block" href="product-detail.html"><div className="aspect-square bg-white rounded-[32px] overflow-hidden mb-6 relative soft-shadow">
-                    <Image variant="cover" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://images.unsplash.com/photo-1594465919760-441fe5908ab0?w=600&q=80" alt="Product" />
-                  </div>
-                  <h3 className="text-lg font-lora font-bold mb-1"> Hyaluronic Acid Gel </h3>
-                  <p className="text-earth/60 text-sm mb-2"> Intense moisture boost </p>
-                  <p className="text-sage font-bold"> $42.00 </p></Link>
-                </div>
-                {/* Product 8 */}
-                <div className="group">
-                  <Link className="block" href="product-detail.html"><div className="aspect-square bg-white rounded-[32px] overflow-hidden mb-6 relative soft-shadow">
-                    <Image variant="cover" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&q=80" alt="Product" />
-                  </div>
-                  <h3 className="text-lg font-lora font-bold mb-1"> Calming Chamomile Toner </h3>
-                  <p className="text-earth/60 text-sm mb-2"> Soothing skin prep </p>
-                  <p className="text-sage font-bold"> $28.00 </p></Link>
-                </div>
-              </div>
+              <ShopCatalog />
             </div>
           </section>
         </main>

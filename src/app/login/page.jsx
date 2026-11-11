@@ -9,6 +9,7 @@ import { ShoppingBag } from 'lucide-react';
 import { Text } from '@/components/Text';
 import { Twitter } from 'lucide-react';
 import { User } from 'lucide-react';
+import { AuthForm } from '@/components/AuthForm';
 
 export const metadata = {
   title: 'Botanical Glow - Free Tailwind Template',
@@ -52,32 +53,7 @@ export default function Page() {
         <main className="min-h-screen flex items-center justify-center px-6 py-32">
           {/* Welcome Back */}
           <section id="welcome_back">
-            <div className="max-w-md w-full bg-white p-10 md:p-12 rounded-[40px] soft-shadow">
-              <div className="text-center mb-10">
-                <h1 className="text-3xl font-lora font-bold mb-2"> Welcome Back </h1>
-                <p className="text-earth/60 text-sm"> Enter your details to access your account. </p>
-              </div>
-              <form className="space-y-6">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-widest text-earth/40 mb-2"> Email Address </label>
-                  <Input className="w-full bg-cream/50 border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-sage/20 transition-all" type="email" placeholder="jane@example.com" />
-                </div>
-                <div>
-                  <div className="flex justify-between mb-2">
-                    <label className="block text-xs font-bold uppercase tracking-widest text-earth/40"> Password </label>
-                    <Link className="text-[10px] font-bold uppercase tracking-widest text-sage hover:underline" href="#"> Forgot? </Link>
-                  </div>
-                  <Input className="w-full bg-cream/50 border-none rounded-2xl px-6 py-4 focus:ring-2 focus:ring-sage/20 transition-all" type="password" placeholder="••••••••" />
-                </div>
-                <Button contentKey="cta_10" className="w-full bg-sage text-white py-5 rounded-full font-bold hover:bg-sage/90 transition-all shadow-lg shadow-sage/20" type="submit"> Sign In </Button>
-              </form>
-              <div className="mt-10 pt-10 border-t border-sage/10 text-center">
-                <p className="text-sm text-earth/60">
-                   Don't have an account? 
-                  <Link className="text-sage font-bold hover:underline" href="#"> Create one </Link>
-                </p>
-              </div>
-            </div>
+            <AuthForm />
           </section>
         </main>
         <footer className="bg-[#FDFBF7] border-t border-[#8DAA91]/20 pt-24 pb-12 px-6">
