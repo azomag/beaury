@@ -1,17 +1,16 @@
 import { Button } from '@/components/Button';
 import { Facebook } from 'lucide-react';
-import { Image } from '@/components/Image';
 import { Instagram } from 'lucide-react';
 import { Leaf } from 'lucide-react';
 import { Link } from '@/components/Link';
 import { Menu } from 'lucide-react';
-import { Minus } from 'lucide-react';
-import { Plus } from 'lucide-react';
 import { ShoppingBag } from 'lucide-react';
 import { Text } from '@/components/Text';
-import { CartSummary } from '@/components/CartSummary';
+import { CartPageContent } from '@/components/CartPageContent';
 import { Twitter } from 'lucide-react';
-import { User } from 'lucide-react';
+
+import { AccountMenu } from '@/components/AccountMenu';
+import { CartCount } from '@/components/CartCount';
 
 export const metadata = {
   title: 'Botanical Glow - Free Tailwind Template',
@@ -37,9 +36,9 @@ export default function Page() {
               </div>
             </div>
             <div className="flex items-center gap-6">
-              <Link className="text-[#5D4037]/70 hover:text-[#8DAA91] transition-colors" href="login.html"><User className="w-5 h-5" /></Link>
+              <AccountMenu />
               <Link className="relative text-[#5D4037]/70 hover:text-[#8DAA91] transition-colors" href="cart.html"><ShoppingBag className="w-5 h-5" />
-              <Text className="absolute -top-2 -right-2 bg-[#D68C78] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center"> 0 </Text></Link>
+              <CartCount /></Link>
               {/* Mobile Toggle */}
               <Button className="md:hidden text-[#5D4037]" id="mobile-menu-toggle"><Menu className="w-6 h-6" /></Button>
             </div>
@@ -60,51 +59,7 @@ export default function Page() {
                  Your 
                 <Text variant="italic" className="italic text-sage"> Cart. </Text>
               </h1>
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
-                {/* Cart Items */}
-                <div className="lg:col-span-2 space-y-8">
-                  {/* Item 1 */}
-                  <div className="flex flex-col md:flex-row items-center gap-8 bg-white p-8 rounded-[40px] soft-shadow">
-                    <div className="w-32 h-32 bg-cream rounded-3xl overflow-hidden shrink-0">
-                      <Image variant="cover" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=400&q=80" alt="Product" />
-                    </div>
-                    <div className="flex-grow text-center md:text-left">
-                      <h3 className="text-xl font-lora font-bold mb-2"> Velvet Cloud Cleanser </h3>
-                      <p className="text-sm text-earth/60 mb-4"> Size: 150ml </p>
-                      <div className="flex items-center justify-center md:justify-start gap-6">
-                        <div className="flex items-center border border-sage/20 rounded-full px-4 py-1">
-                          <Button className="text-sage hover:text-earth transition-colors"><Minus className="w-4 h-4" /></Button>
-                          <Text variant="bold" className="mx-4 font-bold"> 1 </Text>
-                          <Button className="text-sage hover:text-earth transition-colors"><Plus className="w-4 h-4" /></Button>
-                        </div>
-                        <Button className="text-xs font-bold uppercase tracking-widest text-terracotta hover:underline"> Remove </Button>
-                      </div>
-                    </div>
-                    <div className="text-xl font-lora font-bold"> $38.00 </div>
-                  </div>
-                  {/* Item 2 */}
-                  <div className="flex flex-col md:flex-row items-center gap-8 bg-white p-8 rounded-[40px] soft-shadow">
-                    <div className="w-32 h-32 bg-cream rounded-3xl overflow-hidden shrink-0">
-                      <Image variant="cover" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=400&q=80" alt="Product" />
-                    </div>
-                    <div className="flex-grow text-center md:text-left">
-                      <h3 className="text-xl font-lora font-bold mb-2"> Midnight Recovery Oil </h3>
-                      <p className="text-sm text-earth/60 mb-4"> Size: 30ml </p>
-                      <div className="flex items-center justify-center md:justify-start gap-6">
-                        <div className="flex items-center border border-sage/20 rounded-full px-4 py-1">
-                          <Button className="text-sage hover:text-earth transition-colors"><Minus className="w-4 h-4" /></Button>
-                          <Text variant="bold" className="mx-4 font-bold"> 1 </Text>
-                          <Button className="text-sage hover:text-earth transition-colors"><Plus className="w-4 h-4" /></Button>
-                        </div>
-                        <Button className="text-xs font-bold uppercase tracking-widest text-terracotta hover:underline"> Remove </Button>
-                      </div>
-                    </div>
-                    <div className="text-xl font-lora font-bold"> $64.00 </div>
-                  </div>
-                </div>
-                {/* Summary */}
-                <CartSummary />
-              </div>
+              <CartPageContent />
             </div>
           </section>
         </main>

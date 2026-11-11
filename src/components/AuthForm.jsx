@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@/components/Button';
 
 const apiBase = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api').replace(/\/$/, '');
 const inputClass = 'w-full rounded-2xl border border-sage/10 bg-cream/50 px-6 py-4 outline-none transition focus:border-sage focus:ring-2 focus:ring-sage/20';
@@ -35,14 +34,15 @@ export function AuthForm() {
         const details = data.detail || Object.values(data).flat().join(' ');
         throw new Error(details || 'Please check your details and try again.');
       }
+      localStorage.setItem('botanicalGlowAccess', data.access);
+      localStorage.setItem('botanicalGlowRefresh', data.refresh);
+      localStorage.setItem('botanicalGlowUser', JSON.stringify(data.user));
+      window.dispatchEvent(new Event('botanical-auth-changed'));
       if (registering) {
         setRegistering(false);
-        setMessage('Your account is ready. Sign in with your email or username.');
+        setMessage(`Welcome, ${data.user.username}. Your account is ready.`);
         formElement.reset();
       } else {
-        localStorage.setItem('botanicalGlowAccess', data.access);
-        localStorage.setItem('botanicalGlowRefresh', data.refresh);
-        localStorage.setItem('botanicalGlowUser', JSON.stringify(data.user));
         setMessage(`Welcome back, ${data.user.username}. You are signed in.`);
       }
     } catch (requestError) {
@@ -82,9 +82,9 @@ export function AuthForm() {
         </label>
         {error && <p role="alert" className="text-sm text-terracotta">{error}</p>}
         {message && <p aria-live="polite" className="text-sm text-sage">{message}</p>}
-        <Button type="submit" disabled={busy} className="w-full rounded-full bg-sage py-5 font-bold text-white shadow-lg shadow-sage/20 transition hover:bg-sage/90 disabled:opacity-60">
+        <button type="submit" disabled={busy} className="w-full rounded-full bg-sage py-5 font-bold text-white shadow-lg shadow-sage/20 transition hover:bg-sage/90 disabled:opacity-60">
           {busy ? 'Please wait…' : registering ? 'Create Account' : 'Sign In'}
-        </Button>
+        </button>
       </form>
       <div className="mt-8 border-t border-sage/10 pt-7 text-center">
         <p className="text-sm text-earth/60">

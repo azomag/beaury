@@ -1,18 +1,16 @@
 import { Button } from '@/components/Button';
-import { Check } from 'lucide-react';
 import { Facebook } from 'lucide-react';
-import { Image } from '@/components/Image';
 import { Instagram } from 'lucide-react';
 import { Leaf } from 'lucide-react';
 import { Link } from '@/components/Link';
 import { Menu } from 'lucide-react';
-import { Minus } from 'lucide-react';
-import { Plus } from 'lucide-react';
 import { ShoppingBag } from 'lucide-react';
-import { Star } from 'lucide-react';
 import { Text } from '@/components/Text';
+import { ProductDetails } from '@/components/ProductDetails';
 import { Twitter } from 'lucide-react';
-import { User } from 'lucide-react';
+
+import { AccountMenu } from '@/components/AccountMenu';
+import { CartCount } from '@/components/CartCount';
 
 export const metadata = {
   title: 'Botanical Glow - Free Tailwind Template',
@@ -38,9 +36,9 @@ export default function Page() {
               </div>
             </div>
             <div className="flex items-center gap-6">
-              <Link className="text-[#5D4037]/70 hover:text-[#8DAA91] transition-colors" href="login.html"><User className="w-5 h-5" /></Link>
+              <AccountMenu />
               <Link className="relative text-[#5D4037]/70 hover:text-[#8DAA91] transition-colors" href="cart.html"><ShoppingBag className="w-5 h-5" />
-              <Text className="absolute -top-2 -right-2 bg-[#D68C78] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center"> 0 </Text></Link>
+              <CartCount /></Link>
               {/* Mobile Toggle */}
               <Button className="md:hidden text-[#5D4037]" id="mobile-menu-toggle"><Menu className="w-6 h-6" /></Button>
             </div>
@@ -54,105 +52,7 @@ export default function Page() {
           </nav>
         </header>
         <main className="pt-32 pb-32 px-6">
-          {/* Velvet Cloud Cleanser */}
-          <section id="velvet_cloud_cleanser">
-            <div className="max-w-7xl mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-32">
-                {/* Image Gallery */}
-                <div className="space-y-6">
-                  <div className="aspect-square bg-white rounded-[40px] overflow-hidden soft-shadow">
-                    <Image variant="cover" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1612817288484-6f916006741a?w=800&q=80" alt="Product" />
-                  </div>
-                  <div className="grid grid-cols-3 gap-6">
-                    <div className="aspect-square bg-white rounded-2xl overflow-hidden soft-shadow cursor-pointer border-2 border-sage">
-                      <Image variant="cover" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1612817288484-6f916006741a?w=400&q=80" alt="Detail" />
-                    </div>
-                    <div className="aspect-square bg-white rounded-2xl overflow-hidden soft-shadow cursor-pointer hover:border-2 hover:border-sage transition-all">
-                      <Image variant="cover" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&q=80" alt="Detail" />
-                    </div>
-                    <div className="aspect-square bg-white rounded-2xl overflow-hidden soft-shadow cursor-pointer hover:border-2 hover:border-sage transition-all">
-                      <Image variant="cover" className="w-full h-full object-cover" src="https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=400&q=80" alt="Detail" />
-                    </div>
-                  </div>
-                </div>
-                {/* Product Info */}
-                <div className="flex flex-col justify-center">
-                  <div className="mb-8">
-                    <div className="text-sage font-bold uppercase tracking-widest text-xs mb-4"> Cleansers </div>
-                    <h1 className="text-5xl font-lora font-bold mb-4"> Velvet Cloud Cleanser </h1>
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="flex gap-1 text-terracotta">
-                        <Star className="w-4 h-4 fill-current" />
-                        <Star className="w-4 h-4 fill-current" />
-                        <Star className="w-4 h-4 fill-current" />
-                        <Star className="w-4 h-4 fill-current" />
-                        <Star className="w-4 h-4 fill-current" />
-                      </div>
-                      <Text className="text-earth/40 text-sm"> (48 Reviews) </Text>
-                    </div>
-                    <p className="text-3xl font-lora font-bold text-sage"> $32.00 </p>
-                  </div>
-                  <p className="text-earth/70 leading-relaxed mb-12">
-                     A gentle, pH-balanced foaming cleanser that removes impurities without stripping the skin's natural moisture barrier. Infused with marshmallow root and white tea extract for a soothing, cloud-like experience. 
-                  </p>
-                  <div className="space-y-6 mb-12">
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 bg-sage/10 text-sage rounded-full flex items-center justify-center"><Check className="w-5 h-5" /></div>
-                      <Text className="text-sm font-medium"> Suitable for all skin types </Text>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 bg-sage/10 text-sage rounded-full flex items-center justify-center"><Check className="w-5 h-5" /></div>
-                      <Text className="text-sm font-medium"> Vegan & Cruelty-Free </Text>
-                    </div>
-                  </div>
-                  <div className="flex gap-4">
-                    <div className="flex items-center border border-sage/20 rounded-full px-6 py-4 bg-white">
-                      <Button className="text-sage hover:text-earth transition-colors"><Minus className="w-4 h-4" /></Button>
-                      <Text variant="bold" className="mx-6 font-bold"> 1 </Text>
-                      <Button className="text-sage hover:text-earth transition-colors"><Plus className="w-4 h-4" /></Button>
-                    </div>
-                    <Button contentKey="cta_13" className="flex-grow bg-sage text-white rounded-full font-bold hover:bg-[#7a967e] transition-all soft-shadow"> Add to Bag </Button>
-                  </div>
-                </div>
-              </div>
-              {/* Tabs */}
-              <div className="border-t border-sage/10 pt-20">
-                <div className="flex gap-12 mb-12 border-b border-sage/10">
-                  <Button className="pb-4 border-b-2 border-sage font-bold text-sage"> Ingredients </Button>
-                  <Button className="pb-4 text-earth/40 hover:text-sage transition-colors"> How to Use </Button>
-                  <Button className="pb-4 text-earth/40 hover:text-sage transition-colors"> Sustainability </Button>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-                  <div>
-                    <h3 className="text-2xl font-lora font-bold mb-6"> What's Inside </h3>
-                    <p className="text-earth/70 leading-relaxed mb-8">
-                       We believe in full transparency. Every ingredient is chosen for its specific benefit to your skin health. 
-                    </p>
-                    <ul className="space-y-4">
-                      <li className="flex items-start gap-4">
-                        <Text variant="bold" className="font-bold text-sage"> Marshmallow Root: </Text>
-                        <Text className="text-sm text-earth/60"> Soothes inflammation and provides intense hydration. </Text>
-                      </li>
-                      <li className="flex items-start gap-4">
-                        <Text variant="bold" className="font-bold text-sage"> White Tea Extract: </Text>
-                        <Text className="text-sm text-earth/60"> Rich in antioxidants to protect against environmental stressors. </Text>
-                      </li>
-                      <li className="flex items-start gap-4">
-                        <Text variant="bold" className="font-bold text-sage"> Aloe Vera: </Text>
-                        <Text className="text-sm text-earth/60"> Cools and calms the skin while providing a gentle cleanse. </Text>
-                      </li>
-                    </ul>
-                  </div>
-                  <div className="bg-white p-10 rounded-[40px] soft-shadow">
-                    <h3 className="text-xl font-lora font-bold mb-6"> Full Ingredient List </h3>
-                    <p className="text-xs text-earth/40 leading-relaxed">
-                       Aqua (Water), Aloe Barbadensis Leaf Juice*, Glycerin, Decyl Glucoside, Lauryl Glucoside, Althaea Officinalis (Marshmallow) Root Extract*, Camellia Sinensis (White Tea) Leaf Extract*, Chamomilla Recutita (Matricaria) Flower Extract*, Benzyl Alcohol, Dehydroacetic Acid, Citric Acid. *Certified Organic 
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
+          <ProductDetails />
         </main>
         <footer className="bg-[#FDFBF7] border-t border-[#8DAA91]/20 pt-24 pb-12 px-6">
           <div className="max-w-7xl mx-auto">

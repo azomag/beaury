@@ -9,6 +9,9 @@ User = get_user_model()
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(required=False, allow_empty_file=False, write_only=True)
+    image_url = serializers.SerializerMethodField()
+
     class Meta:
         model = Product
         fields = (
@@ -19,12 +22,32 @@ class ProductSerializer(serializers.ModelSerializer):
             "description",
             "price",
             "stock_quantity",
+            "image",
             "image_url",
             "is_active",
             "created_at",
             "updated_at",
         )
         read_only_fields = ("id", "created_at", "updated_at")
+
+    def get_image_url(self, product):
+        if product.image:
+            request = self.context.get("request")
+            image_url = product.image.url
+            return request.build_absolute_uri(image_url) if request else image_url
+        return product.image_url
+
+    def validate_image(self, image):
+        if image.size > 8 * 1024 * 1024:
+            raise serializers.ValidationError("Image must be 8 MB or smaller.")
+        return image
+
+    def update(self, instance, validated_data):
+        previous_image = instance.image if "image" in validated_data else None
+        instance = super().update(instance, validated_data)
+        if previous_image:
+            previous_image.delete(save=False)
+        return instance
 
 
 class RegisterSerializer(serializers.Serializer):

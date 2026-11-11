@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Image } from '@/components/Image';
 import { Link } from '@/components/Link';
+import { AddToCartButton } from '@/components/AddToCartButton';
 
 const apiBase = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api').replace(/\/$/, '');
 const categories = [
@@ -12,19 +13,18 @@ const categories = [
   { label: 'Moisturizers', value: 'moisturizer' },
   { label: 'Other', value: 'other' },
 ];
-const previewProducts = [
-  { id: 'cleanser-preview', name: 'Velvet Cloud Cleanser', category: 'cleanser', description: 'A gentle daily cleanser for soft, refreshed skin.', price: '38.00', stock_quantity: 24, image_url: 'https://images.unsplash.com/photo-1601049541289-9b1b7bbbfe19?w=600&q=80' },
-  { id: 'oil-preview', name: 'Midnight Recovery Oil', category: 'serum', description: 'A nourishing botanical oil for your evening routine.', price: '64.00', stock_quantity: 18, image_url: 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=600&q=80' },
-];
-
 export function ShopCatalog() {
   const [category, setCategory] = useState('');
-  const [products, setProducts] = useState(previewProducts);
+  const [products, setProducts] = useState([]);
   const [connected, setConnected] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
     const query = category ? `?category=${encodeURIComponent(category)}` : '';
+    setLoading(true);
+    setError(false);
     fetch(`${apiBase}/products/${query}`, { signal: controller.signal })
       .then((response) => {
         if (!response.ok) throw new Error('Catalog request failed');
@@ -33,13 +33,16 @@ export function ShopCatalog() {
       .then((data) => {
         setProducts(Array.isArray(data) ? data : data.results || []);
         setConnected(true);
+        setError(false);
       })
       .catch((error) => {
         if (error.name !== 'AbortError') {
-          setProducts(category ? previewProducts.filter((product) => product.category === category) : previewProducts);
+          setProducts([]);
           setConnected(false);
+          setError(true);
         }
-      });
+      })
+      .finally(() => setLoading(false));
     return () => controller.abort();
   }, [category]);
 
@@ -58,11 +61,11 @@ export function ShopCatalog() {
           </button>
         ))}
       </div>
-      {!connected && <p className="mb-8 text-center text-xs text-earth/45">Showing preview products. Start the Django backend to load your live catalog and stock.</p>}
+      {!connected && error && <p role="alert" className="mb-8 text-center text-sm text-terracotta">The live catalog is unavailable. Please try again in a moment.</p>}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {products.map((product) => (
-          <div className="group" key={product.id}>
-            <Link className="block" href="product-detail.html">
+        {!loading && products.map((product) => (
+          <article className="group" key={product.id}>
+            <Link className="block" href={`/product-detail/?slug=${encodeURIComponent(product.slug)}`}>
               <div className="relative mb-6 aspect-square overflow-hidden rounded-[32px] bg-white soft-shadow">
                 {product.image_url && <Image variant="cover" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" src={product.image_url} alt={product.name} width={600} height={600} />}
                 {connected && <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-earth">{product.stock_quantity > 0 ? `${product.stock_quantity} in stock` : 'Out of stock'}</span>}
@@ -71,10 +74,11 @@ export function ShopCatalog() {
               <p className="mb-2 line-clamp-2 text-sm text-earth/60">{product.description || product.category}</p>
               <p className="font-bold text-sage">${Number(product.price).toFixed(2)}</p>
             </Link>
-          </div>
+            <AddToCartButton product={product} className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-sage px-5 py-3 text-sm font-bold text-white transition hover:bg-sage/90 disabled:cursor-not-allowed disabled:opacity-50" />
+          </article>
         ))}
-        {products.length === 0 && (
-          <p className="col-span-full py-10 text-center text-earth/55">No products in this collection yet. Add one from the store admin.</p>
+        {(loading || products.length === 0) && !error && (
+          <p className="col-span-full py-10 text-center text-earth/55">{loading ? 'Loading products…' : 'No products in this collection yet. Add one from the store admin.'}</p>
         )}
       </div>
     </>

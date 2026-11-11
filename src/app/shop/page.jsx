@@ -7,8 +7,10 @@ import { Menu } from 'lucide-react';
 import { ShoppingBag } from 'lucide-react';
 import { Text } from '@/components/Text';
 import { Twitter } from 'lucide-react';
-import { User } from 'lucide-react';
 import { ShopCatalog } from '@/components/ShopCatalog';
+
+import { AccountMenu } from '@/components/AccountMenu';
+import { CartCount } from '@/components/CartCount';
 
 export const metadata = {
   title: 'Botanical Glow - Free Tailwind Template',
@@ -34,9 +36,9 @@ export default function Page() {
               </div>
             </div>
             <div className="flex items-center gap-6">
-              <Link className="text-[#5D4037]/70 hover:text-[#8DAA91] transition-colors" href="login.html"><User className="w-5 h-5" /></Link>
+              <AccountMenu />
               <Link className="relative text-[#5D4037]/70 hover:text-[#8DAA91] transition-colors" href="cart.html"><ShoppingBag className="w-5 h-5" />
-              <Text className="absolute -top-2 -right-2 bg-[#D68C78] text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center"> 0 </Text></Link>
+              <CartCount /></Link>
               {/* Mobile Toggle */}
               <Button className="md:hidden text-[#5D4037]" id="mobile-menu-toggle"><Menu className="w-6 h-6" /></Button>
             </div>

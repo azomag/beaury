@@ -3,12 +3,13 @@ from decimal import Decimal, ROUND_HALF_UP
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework import generics, status, viewsets
 from rest_framework.permissions import AllowAny
+from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 
 from .models import Product, PromoCode
-from .permissions import IsAdminOrReadOnly
+from .permissions import IsSuperUserOrReadOnly
 from .serializers import ProductSerializer, PromoValidationSerializer, RegisterSerializer
 
 User = get_user_model()
@@ -16,16 +17,23 @@ User = get_user_model()
 
 class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
-    permission_classes = [IsAdminOrReadOnly]
+    permission_classes = [IsSuperUserOrReadOnly]
+    parser_classes = [JSONParser, FormParser, MultiPartParser]
+    lookup_field = "slug"
 
     def get_queryset(self):
         queryset = Product.objects.all()
-        if not self.request.user.is_staff:
+        if not self.request.user.is_superuser:
             queryset = queryset.filter(is_active=True)
         category = self.request.query_params.get("category")
         if category:
             queryset = queryset.filter(category=category)
         return queryset
+
+    def perform_destroy(self, instance):
+        if instance.image:
+            instance.image.delete(save=False)
+        instance.delete()
 
 
 class PromoValidationView(APIView):
@@ -56,9 +64,26 @@ class PromoValidationView(APIView):
         })
 
 
-class RegisterView(generics.CreateAPIView):
+class RegisterView(generics.GenericAPIView):
     serializer_class = RegisterSerializer
     permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            "access": str(refresh.access_token),
+            "refresh": str(refresh),
+            "user": {
+                "id": user.pk,
+                "username": user.username,
+                "email": user.email,
+                "is_staff": user.is_staff,
+                "is_superuser": user.is_superuser,
+            },
+        }, status=status.HTTP_201_CREATED)
 
 
 class LoginView(APIView):
@@ -82,5 +107,11 @@ class LoginView(APIView):
         return Response({
             "access": str(refresh.access_token),
             "refresh": str(refresh),
-            "user": {"id": user.pk, "username": user.username, "email": user.email},
+            "user": {
+                "id": user.pk,
+                "username": user.username,
+                "email": user.email,
+                "is_staff": user.is_staff,
+                "is_superuser": user.is_superuser,
+            },
         })

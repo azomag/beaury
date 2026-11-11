@@ -1,19 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Check, Tag } from 'lucide-react';
-import { Button } from '@/components/Button';
 import { Text } from '@/components/Text';
 
-const subtotal = 102;
 const apiBase = (process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000/api').replace(/\/$/, '');
 const money = (amount) => `$${Number(amount).toFixed(2)}`;
 
-export function CartSummary() {
+export function CartSummary({ subtotal = 0 }) {
   const [code, setCode] = useState('');
   const [promo, setPromo] = useState(null);
   const [message, setMessage] = useState('');
   const [isApplying, setIsApplying] = useState(false);
+
+  useEffect(() => {
+    setPromo(null);
+    setMessage((current) => current.includes('applied') ? 'Cart changed. Reapply the promo code.' : current);
+  }, [subtotal]);
 
   async function applyPromo(event) {
     event.preventDefault();
@@ -99,7 +102,7 @@ export function CartSummary() {
             <Text>{money(total)}</Text>
           </div>
         </div>
-        <Button contentKey="cta_12" className="w-full bg-sage text-white py-5 rounded-full font-bold hover:bg-sage/90 transition-all shadow-lg shadow-sage/20 mb-6">Checkout Now</Button>
+        <button type="button" disabled={subtotal <= 0} className="mb-6 w-full rounded-full bg-sage py-5 font-bold text-white shadow-lg shadow-sage/20 transition-all hover:bg-sage/90 disabled:cursor-not-allowed disabled:opacity-50">Checkout Now</button>
         <p className="text-[10px] text-center text-earth/40 uppercase tracking-widest">Secure payment powered by Stripe</p>
       </div>
     </div>
